@@ -17,21 +17,21 @@ public class App {
 		 * -> Manipular os dados recebidos.
 		 */
 
-		/*Otras url's:
-		 * https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060
+		/*Outras url's:
+		 * https://alura-filmes.herokuapp.com/conteudos
 		 * https://alura-imdb-api.herokuapp.com/movies
 		 * https://api.mocki.io/v2/549a5d8b
 		 * https://alura-filmes.herokuapp.com/conteudos
 		 * https://raw.githubusercontent.com/alexfelipe/imersao-java/json/top250.json
 		 */
 		
-		String url = "https://alura-filmes.herokuapp.com/conteudos";
+		String url = "https://mocki.io/v1/9a7c1ca9-29b4-4eb3-8306-1adb9d159060";
 		URI endereco = URI.create(url);
 		HttpClient client = HttpClient.newHttpClient();
 		HttpRequest requisicao = HttpRequest.newBuilder(endereco).GET().build();
 		HttpResponse<String> response = client.send(requisicao, BodyHandlers.ofString());
 		String body = response.body();
-		// System.out.println(body);
+		//System.out.println(body);
 
 		//Extraindo
 		JsonParser parser = new JsonParser();
