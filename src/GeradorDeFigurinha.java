@@ -3,6 +3,7 @@ import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,16 +23,24 @@ public class GeradorDeFigurinha {
          */
 
         // Lendo a imagem
-        // lendo imagem do sistema operacional -->InputStream inputStream = new FileInputStream(new File("entrada/filme.jpg"));
-        // lendo imagem pela URL -->InputStream inputStream = new URL("https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@.jpg").openStream();
+        // lendo imagem do sistema operacional -->InputStream inputStream = new
+        // FileInputStream(new File("entrada/filme.jpg"));
+        // lendo imagem pela URL -->InputStream inputStream = new
+        // URL("https://m.media-amazon.com/images/M/MV5BMDFkYTc0MGEtZmNhMC00ZDIzLWFmNTEtODM1ZmRlYWMwMWFmXkEyXkFqcGdeQXVyMTMxODk2OTU@.jpg").openStream();
         BufferedImage imagemOrinal = ImageIO.read(inputStream);
+        int largura;
+        try {
+            largura = imagemOrinal.getWidth();
+        } catch (NullPointerException ex) {
+            InputStream inputStream2 = new FileInputStream(new File("saida/404.jpg"));
+            imagemOrinal = ImageIO.read(inputStream2);
+            largura = imagemOrinal.getWidth();
+        }
 
         // Criando nova imagem
-        int largura = imagemOrinal.getWidth();
         int altura = imagemOrinal.getHeight();
         int novaAltura = altura + 200;
         BufferedImage novaImagem = new BufferedImage(largura, novaAltura, BufferedImage.TRANSLUCENT);
-
         // Passando ImgOrinal --> ImgNova
         Graphics2D graphics = (Graphics2D) novaImagem.getGraphics();
         graphics.drawImage(imagemOrinal, 0, 0, null);
