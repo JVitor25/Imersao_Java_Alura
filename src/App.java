@@ -1,10 +1,14 @@
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,9 +42,23 @@ public class App {
 		List<Map<String,String>> listaDeFilmes = parser.parse(body);
 
 		//Exibição
+		var gerador = new GeradorDeFigurinha();
 		for (Map<String,String> filme: listaDeFilmes) {
-			System.out.println(filme.get("title"));
-			System.out.println(filme.get("image"));
+			
+			String urlImagem = "https://m.media-amazon." + filme.get("image").split("\\.")[2] + "._V1_UX1383_1383,2048_AL_.jpg";
+			String titulo = filme.get("title");
+			InputStream inputStream;
+			try{
+				inputStream = new URL(urlImagem).openStream();
+			}catch (FileNotFoundException e){ //Caso a imagem saia do ar
+				inputStream = new FileInputStream(new File("saida/404.jpg"));
+			} 
+			
+			String nomeArquivo = "saida/" + titulo + ".png";
+			nomeArquivo = nomeArquivo.replaceAll(":"," -");
+
+			System.out.println(titulo);
+			gerador.cria(inputStream, nomeArquivo);
 			System.out.println(filme.get("imDbRating"));
 			System.out.println();
 		}
